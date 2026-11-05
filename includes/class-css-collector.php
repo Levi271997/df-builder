@@ -108,6 +108,18 @@ final class Css_Collector {
 	}
 
 	/**
+	 * Editor server-side previews (/wp/v2/block-renderer): the editor already applies the
+	 * block's classes and CSS to the preview wrapper, so don't add them twice.
+	 */
+	private static function is_editor_preview(): bool {
+		if ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) {
+			return false;
+		}
+		$route = $GLOBALS['wp']->query_vars['rest_route'] ?? '';
+		return is_string( $route ) && false !== strpos( $route, '/block-renderer/' );
+	}
+
+	/**
 	 * @param string $content Rendered block HTML.
 	 * @param array  $block   Parsed block.
 	 */
@@ -116,7 +128,7 @@ final class Css_Collector {
 			return $content;
 		}
 		$dfb = $block['attrs']['dfb'] ?? null;
-		if ( ! is_array( $dfb ) ) {
+		if ( ! is_array( $dfb ) || self::is_editor_preview() ) {
 			return $content;
 		}
 

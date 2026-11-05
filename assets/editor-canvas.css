@@ -39,3 +39,37 @@
 .dfb-link-wrapper {
 	cursor: auto;
 }
+
+/* Repeater hint spans the whole grid. */
+.dfb-repeater > .dfb-repeater__hint {
+	grid-column: 1 / -1;
+	margin: 0;
+	font-family: system-ui, sans-serif;
+	font-size: 12px;
+}
+
+.dfb-code__editor,
+.dfb-code__editor textarea {
+	width: 100%;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 13px;
+	line-height: 1.5;
+	tab-size: 2;
+}
+
+.dfb-code__panel {
+	border: 1px solid #ddd;
+	background: #fff;
+	padding: 8px;
+	font-family: system-ui, sans-serif;
+}
+
+.dfb-shortcode-editor {
+	padding: 12px;
+	border: 1px dashed rgba(0, 0, 0, .3);
+	background: rgba(0, 0, 0, .03);
+}
+
+.dfb-ssr__inner {
+	pointer-events: none;
+}

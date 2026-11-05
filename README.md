@@ -31,7 +31,12 @@ In WordPress, go to **Plugins → Add New → Upload Plugin**, choose `df-builde
 
 ### 2. Building a page
 
-Open a page in the block editor. Under **DF Builder** in the inserter (**+**) you'll find Section, Div, Grid Columns, Heading, Text, Button, Image, Link Wrapper, Icon and Post Content. A typical structure:
+Open a page in the block editor. Under **DF Builder** in the inserter (**+**) you'll find:
+
+- **Layout & basics:** Section, Div, Grid Columns, Heading, Text, Button, Image, Link Wrapper, Icon, Post Content
+- **Dynamic & dev:** Posts Grid (Repeater), Code Block, Shortcode, Comments, Login Form, Breadcrumbs
+
+A typical structure:
 
 ```
 Section            ← full-width band (background, vertical padding)
@@ -99,6 +104,20 @@ If several templates of the same type match, the highest **Priority** wins. On a
    - **Site:** title, tagline, home URL, current year.
 4. The editor shows a placeholder such as `{ Post field: Title }`. The real value appears on the front end.
 
+### 7. Dynamic & dev blocks
+
+- **Posts Grid (Repeater):** design one card inside it and it repeats for each post. The default card is already bound to the permalink, featured image, title and excerpt.
+  - Choose the post type, count, order and taxonomy filter.
+  - Turn on **Use the page’s main query** in archive or search content templates.
+  - Pagination is optional.
+- **Code Block:** HTML, CSS and JavaScript tabs. In CSS, `%%SELECTOR%%` targets this block only. JS runs in the footer, never inside the editor.
+  - Only users with the `unfiltered_html` capability can save code. For anyone else the code is removed on save.
+  - That includes edits to a post that already has code: if someone without the capability saves it, the existing code is removed too.
+- **Shortcode:** paste a shortcode (for example a form plugin). When the block isn’t selected, it shows a live preview.
+- **Comments:** comment list and/or comment form for the current post.
+- **Login Form:** the WordPress login form, with an optional redirect. Logged-in visitors see a message and a logout link instead.
+- **Breadcrumbs:** Home › parents/category › current page, with schema.org markup. The editor shows a sample trail.
+
 ### Example first setup
 
 1. A **Header** template (*Entire site*): a Section with a logo, Links and a Button.
@@ -111,7 +130,7 @@ If several templates of the same type match, the highest **Priority** wins. On a
 | Feature | Where |
 |---|---|
 | **Style panel** on DF Builder blocks and common core blocks (group, columns, paragraph, heading, image, buttons, list, cover). It covers layout (flex/grid), spacing, size, position, typography, background, border and effects, per **Desktop / Tablet / Landscape / Phone / Hover**. Empty fields show the inherited value. | Block sidebar → **Styles** tab |
-| **Blocks:** Section, Div, Grid Columns, Heading, Text, Button, Image, Link Wrapper, Icon, Post Content | Inserter → *DF Builder* |
+| **Blocks:** Section, Div, Grid Columns, Heading, Text, Button, Image, Link Wrapper, Icon, Post Content, Posts Grid (Repeater), Code Block, Shortcode, Comments, Login Form, Breadcrumbs | Inserter → *DF Builder* |
 | **Global classes:** type a name in *Global classes* to create one, then switch *Editing* to that class to style every block that uses it. Classes are saved when you save the post or click *Save class*. | Style panel; manage/rename/delete in **DF Builder → Settings** |
 | **Templates:** header, content (body) and footer templates with include/exclude conditions and a priority. When one matches, the theme output is replaced by the DF Builder canvas. | **DF Builder → Templates** |
 | **Dynamic data:** bind text, URLs and images to post fields, custom fields, ACF fields, the author or the site, using the core Block Bindings API. | Block sidebar → **Dynamic data** |

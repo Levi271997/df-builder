@@ -29,6 +29,33 @@ final class Blocks {
 		add_action( 'init', array( $this, 'register_blocks' ) );
 		add_filter( 'register_block_type_args', array( $this, 'add_attribute' ), 10, 2 );
 		add_filter( 'block_categories_all', array( $this, 'category' ) );
+		add_filter( 'wp_insert_post_data', array( $this, 'strip_code_for_untrusted' ), 10, 1 );
+	}
+
+	/**
+	 * Remove Code Block contents saved by users who may not post unfiltered HTML.
+	 * kses strips tags from attributes but would leave raw JS/CSS text, so we clear them entirely.
+	 *
+	 * @param array $data Slashed post data.
+	 */
+	public function strip_code_for_untrusted( $data ) {
+		if ( current_user_can( 'unfiltered_html' ) || empty( $data['post_content'] ) || false === strpos( $data['post_content'], 'wp:dfb/code' ) ) {
+			return $data;
+		}
+		$strip = static function ( array $blocks ) use ( &$strip ): array {
+			foreach ( $blocks as $i => $b ) {
+				if ( 'dfb/code' === $b['blockName'] ) {
+					unset( $blocks[ $i ]['attrs']['html'], $blocks[ $i ]['attrs']['css'], $blocks[ $i ]['attrs']['js'] );
+				}
+				if ( ! empty( $b['innerBlocks'] ) ) {
+					$blocks[ $i ]['innerBlocks'] = $strip( $b['innerBlocks'] );
+				}
+			}
+			return $blocks;
+		};
+		$blocks               = parse_blocks( wp_unslash( $data['post_content'] ) );
+		$data['post_content'] = wp_slash( serialize_blocks( $strip( $blocks ) ) );
+		return $data;
 	}
 
 	public function register_blocks(): void {
@@ -38,6 +65,17 @@ final class Blocks {
 				register_block_type( $dir );
 			}
 		}
+	}
+
+	/**
+	 * Per-request counter, e.g. for unique pagination params / element ids.
+	 *
+	 * @param string $key Counter name.
+	 */
+	public static function next_instance( string $key ): int {
+		static $counters = array();
+		$counters[ $key ] = ( $counters[ $key ] ?? 0 ) + 1;
+		return $counters[ $key ];
 	}
 
 	/** @return array<string,string> icon name => SVG path data. */

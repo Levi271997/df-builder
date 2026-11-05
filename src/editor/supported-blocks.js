@@ -22,6 +22,8 @@ const DEFAULT_DISPLAY = {
 	'dfb/div': 'flex',
 	'dfb/link-wrapper': 'flex',
 	'dfb/columns': 'grid',
+	'dfb/repeater': 'grid',
+	'dfb/breadcrumbs': 'block',
 	'dfb/button': 'inline-flex',
 	'dfb/icon': 'inline-flex',
 	'core/group': 'block',

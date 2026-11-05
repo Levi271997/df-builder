@@ -69,6 +69,7 @@ final class Plugin {
 			'pageWidth'        => $settings['pageWidth'],
 			'canManageClasses' => current_user_can( Global_Classes::CAP ),
 			'acfActive'        => function_exists( 'get_field' ),
+			'canUnfilteredHtml' => current_user_can( 'unfiltered_html' ),
 			'templatePostType' => Templates::POST_TYPE,
 		);
 	}

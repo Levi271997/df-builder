@@ -103,3 +103,83 @@
 	margin: 0 auto;
 	padding: 40px var(--dfb-gutter, 20px);
 }
+
+/* ---- Posts Grid (Repeater) ---- */
+.dfb-repeater__item {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.dfb-repeater__item > * {
+	flex: 1 1 auto;
+}
+
+.dfb-repeater__pagination ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	list-style: none;
+	margin: 24px 0 0;
+	padding: 0;
+}
+
+.dfb-repeater__pagination .page-numbers {
+	display: inline-block;
+	padding: 6px 12px;
+	border: 1px solid currentColor;
+	border-radius: 4px;
+	text-decoration: none;
+}
+
+.dfb-repeater__pagination .page-numbers.current {
+	font-weight: 700;
+}
+
+/* ---- Breadcrumbs ---- */
+.dfb-breadcrumbs ol {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.dfb-breadcrumbs a {
+	color: inherit;
+}
+
+.dfb-breadcrumbs__sep {
+	opacity: .6;
+}
+
+/* ---- Login form / comments ---- */
+.dfb-login-form form p {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin: 0 0 12px;
+}
+
+.dfb-login-form .login-remember {
+	flex-direction: row;
+}
+
+.dfb-login-form input[type="text"],
+.dfb-login-form input[type="password"] {
+	padding: 10px 12px;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.dfb-comments__list {
+	list-style: none;
+	padding: 0;
+}
+
+.dfb-comments__list .children {
+	list-style: none;
+	padding-left: 32px;
+}
