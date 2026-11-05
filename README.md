@@ -4,6 +4,108 @@ Oxygen-style page building inside the WordPress block editor, for Digitalfeet cl
 
 **Requires:** WordPress 6.6+ (6.7+ recommended for live dynamic-data previews of core blocks), PHP 8.1+.
 
+> **Status:** early version. Test on a local or staging site before using it on a live client site.
+
+## Installation
+
+The repo doesn't include built files, so build the plugin zip first:
+
+```bash
+git clone https://github.com/Levi271997/df-builder.git
+cd df-builder
+npm install
+npm run build
+npm run plugin-zip      # creates df-builder.zip
+```
+
+In WordPress, go to **Plugins → Add New → Upload Plugin**, choose `df-builder.zip`, then **Activate**. A **DF Builder** menu appears in wp-admin, with *Settings* and *Templates* under it.
+
+## Usage guide
+
+### 1. Site settings (DF Builder → Settings)
+
+- **Page width:** the maximum content width inside Sections (default 1120px).
+- **Gutter:** the side padding on small screens.
+- **Breakpoints:** Tablet 992, Landscape 768 and Phone 480 by default.
+- **Use DF Builder templates:** turns all templates on or off for the whole site.
+
+### 2. Building a page
+
+Open a page in the block editor. Under **DF Builder** in the inserter (**+**) you'll find Section, Div, Grid Columns, Heading, Text, Button, Image, Link Wrapper, Icon and Post Content. A typical structure:
+
+```
+Section            ← full-width band (background, vertical padding)
+  └ Div            ← flex container
+      ├ Heading
+      ├ Text
+      └ Button
+```
+
+Select a block and open the **Styles** tab in the right sidebar to style it.
+
+### 3. The style panel
+
+- **Breakpoint tabs:** Desktop · Tablet · Landscape · Phone · Hover.
+  - Desktop values apply at every screen size. Smaller tabs override them.
+  - Grey placeholders show the value inherited from a larger screen.
+  - A blue dot means that tab has values set.
+  - Switching to Tablet or Phone also switches the editor preview, and the reverse works too.
+- **Sections:** Layout (display, flex/grid, gap), Flex/grid child, Spacing (padding and margin boxes), Size, Position, Typography, Background, Border and Effects.
+- **Values:** type a value and press Enter or click away to apply it.
+  - A plain number becomes px (`20` → `20px`).
+  - `rem`, `%`, `vw`, `calc()`, `clamp()` and `var(--x)` also work.
+  - Invalid values turn red and are ignored.
+- **Reset** clears every value on the current tab.
+
+The panel also works on core blocks: Group, Columns, Paragraph, Heading, Image, Buttons, List and Cover.
+
+### 4. Global classes
+
+1. At the top of the style panel, type a name into **Global classes** (for example `btn-primary`) and press Enter. This creates the class and adds it to the block.
+2. Change **Editing** from *This block only* to **Class .btn-primary**, then set the styles.
+3. Add the class to other blocks, and they all share those styles.
+4. Classes are saved when you save the post, or right away with **Save class**.
+
+You can rename or delete classes under **DF Builder → Settings**. Styles set on a single block override the class's styles.
+
+### 5. Templates (header, footer, layouts)
+
+1. Go to **DF Builder → Templates → Add template**.
+2. In the sidebar, open **Template settings** and pick a **Template type**:
+   - **Header** / **Footer:** the condition starts as *Entire site*.
+   - **Content:** add a **Post Content** block where the page's own content goes. For archives, use a core **Query Loop**.
+3. Under **Display conditions**, add rules:
+   - **Include:** where the template is used (for example *Single → Post*, *Front page*, or a taxonomy archive).
+   - **Exclude:** where it isn't used (for example the IDs of landing pages).
+4. Publish it.
+
+When any template matches, DF Builder replaces the theme's output:
+
+```
+header template → content template (or the normal page content) → footer template
+```
+
+If several templates of the same type match, the highest **Priority** wins. On a tie, the more specific rule wins.
+
+### 6. Dynamic data
+
+1. Select a Heading, Text, Button, Image or Link Wrapper block (the core Paragraph, Heading, Image and Button blocks work too).
+2. In the **Settings** tab, open **Dynamic data**.
+3. Pick a source:
+   - **Post field:** title, excerpt, date, permalink, featured image, and more.
+   - **Custom field:** enter the meta key.
+   - **ACF field:** shown only when ACF is active.
+   - **Author:** name, bio, archive link, avatar.
+   - **Site:** title, tagline, home URL, current year.
+4. The editor shows a placeholder such as `{ Post field: Title }`. The real value appears on the front end.
+
+### Example first setup
+
+1. A **Header** template (*Entire site*): a Section with a logo, Links and a Button.
+2. A **Footer** template (*Entire site*).
+3. A **Content** template for *Single → Post*: a Heading bound to the post title, an Image bound to the featured image, and a Post Content block.
+4. Classes such as `btn-primary` and `card`, reused across pages.
+
 ## What it adds
 
 | Feature | Where |
